@@ -2,8 +2,8 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>國中數學七年級上冊 2-1 質因數分解 · 互動電子書</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>國中數學七年級上冊 2-1 質因數分解 · 互動電子書 (行動自適應版)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -11,20 +11,21 @@
       --primary-hover: #1d4ed8;
       --primary-light: #eff6ff;
       --accent: #f59e0b;
-      --bg-dark: #1e293b;
-      --bg-reader: #334155;
+      --bg-dark: #0f172a;
+      --bg-reader: #1e293b;
       --sidebar-bg: #ffffff;
       --text-main: #0f172a;
       --text-muted: #64748b;
       --border-color: #e2e8f0;
       --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --header-h: 56px;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -32,20 +33,23 @@
       background: var(--bg-reader);
       color: var(--text-main);
       height: 100vh;
+      height: 100dvh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      user-select: none;
     }
 
     /* Top Navigation Bar */
     header.top-nav {
-      height: 56px;
+      height: var(--header-h);
+      min-height: var(--header-h);
       background: #ffffff;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
+      padding: 0 12px;
       z-index: 50;
       box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
     }
@@ -53,46 +57,59 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1.05rem;
+      gap: 8px;
+      font-size: 1rem;
       font-weight: 700;
       color: #1e3a8a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .brand i {
       color: var(--primary);
-      font-size: 1.3rem;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .badge-unit {
       background: #dbeafe;
       color: #1e40af;
-      font-size: 0.75rem;
-      padding: 3px 8px;
+      font-size: 0.72rem;
+      padding: 2px 6px;
       border-radius: 9999px;
       font-weight: 600;
+      flex-shrink: 0;
     }
 
     .nav-controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 6px 12px;
+      gap: 5px;
+      padding: 7px 11px;
+      min-height: 38px;
       border-radius: 6px;
-      font-size: 0.875rem;
+      font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
       border: 1px solid var(--border-color);
       background: #ffffff;
       color: var(--text-main);
       transition: all 0.15s ease;
+      touch-action: manipulation;
     }
 
     .btn:hover {
@@ -101,7 +118,7 @@
     }
 
     .btn:active {
-      transform: translateY(1px);
+      transform: scale(0.97);
     }
 
     .btn.active {
@@ -111,53 +128,59 @@
     }
 
     .btn-icon {
-      padding: 6px 9px;
+      padding: 7px 10px;
+      min-width: 38px;
     }
 
     .page-indicator {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.875rem;
+      gap: 4px;
+      font-size: 0.85rem;
       color: var(--text-muted);
-      margin: 0 8px;
+      white-space: nowrap;
     }
 
     .page-input {
-      width: 44px;
-      height: 28px;
+      width: 42px;
+      height: 30px;
       text-align: center;
       border: 1px solid var(--border-color);
       border-radius: 4px;
       font-weight: 600;
       color: var(--text-main);
       user-select: text;
+      font-size: 0.85rem;
     }
 
-    /* Floating Annotation Toolbar */
+    /* Floating Annotation Bar */
     .annotation-bar {
       position: absolute;
-      top: 66px;
+      top: 64px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
-      padding: 6px 12px;
+      padding: 5px 10px;
       border-radius: 30px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       z-index: 40;
-      border: 1px solid rgba(226, 232, 240, 0.8);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      max-width: 95vw;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .tool-group {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       padding: 0 4px;
       border-right: 1px solid var(--border-color);
+      flex-shrink: 0;
     }
 
     .tool-group:last-child {
@@ -165,8 +188,8 @@
     }
 
     .tool-btn {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -177,6 +200,7 @@
       cursor: pointer;
       font-size: 0.95rem;
       transition: all 0.15s;
+      touch-action: manipulation;
     }
 
     .tool-btn:hover {
@@ -190,8 +214,8 @@
     }
 
     .color-dot {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       cursor: pointer;
       border: 2px solid #ffffff;
@@ -199,16 +223,12 @@
       transition: transform 0.15s;
     }
 
-    .color-dot:hover {
-      transform: scale(1.15);
-    }
-
-    .color-dot.active {
+    .color-dot:active, .color-dot.active {
       box-shadow: 0 0 0 2px var(--primary);
       transform: scale(1.15);
     }
 
-    /* Main Container */
+    /* Main Workspace */
     .main-body {
       flex: 1;
       display: flex;
@@ -216,38 +236,57 @@
       position: relative;
     }
 
-    /* Left Sidebar: Outline / Thumbnails */
+    /* Mobile Drawer Overlay Backdrop */
+    .sidebar-backdrop {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(2px);
+      z-index: 28;
+    }
+
+    .sidebar-backdrop.active {
+      display: block;
+    }
+
+    /* Left Sidebar: Outline / Thumbs */
     aside.sidebar-left {
-      width: 280px;
+      width: 290px;
       background: #ffffff;
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
       z-index: 30;
-      transition: transform 0.25s ease, width 0.25s ease;
+      transition: transform 0.25s ease;
     }
 
     aside.sidebar-left.collapsed {
-      width: 0;
       transform: translateX(-100%);
-      overflow: hidden;
+      position: absolute;
+      height: 100%;
     }
 
     .sidebar-tabs {
       display: flex;
       border-bottom: 1px solid var(--border-color);
       background: #f8fafc;
+      flex-shrink: 0;
     }
 
     .sidebar-tab {
       flex: 1;
-      padding: 10px;
+      padding: 12px 6px;
       text-align: center;
       font-size: 0.85rem;
       font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
       border-bottom: 2px solid transparent;
+      touch-action: manipulation;
     }
 
     .sidebar-tab.active {
@@ -260,9 +299,9 @@
       flex: 1;
       overflow-y: auto;
       padding: 12px;
+      -webkit-overflow-scrolling: touch;
     }
 
-    /* Outline item */
     .outline-list {
       list-style: none;
       display: flex;
@@ -271,7 +310,7 @@
     }
 
     .outline-item {
-      padding: 8px 10px;
+      padding: 10px 10px;
       border-radius: 6px;
       font-size: 0.85rem;
       cursor: pointer;
@@ -280,9 +319,10 @@
       justify-content: space-between;
       color: var(--text-main);
       transition: background 0.15s;
+      min-height: 42px;
     }
 
-    .outline-item:hover {
+    .outline-item:hover, .outline-item:active {
       background: #f1f5f9;
     }
 
@@ -298,9 +338,10 @@
       background: #f1f5f9;
       padding: 2px 6px;
       border-radius: 4px;
+      flex-shrink: 0;
     }
 
-    /* Thumbnail list */
+    /* Thumbnail Grid */
     .thumb-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -317,12 +358,6 @@
       transition: all 0.2s;
     }
 
-    .thumb-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-
     .thumb-card.active {
       border-color: var(--primary);
       box-shadow: 0 0 0 2px #bfdbfe;
@@ -335,7 +370,7 @@
     }
 
     .thumb-label {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       text-align: center;
       padding: 4px;
       background: #f8fafc;
@@ -343,37 +378,43 @@
       color: var(--text-muted);
     }
 
-    /* Center Book View Area */
+    /* Center Book Reader */
     main.reader-container {
       flex: 1;
       background: var(--bg-reader);
       overflow: auto;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       position: relative;
-      padding: 24px;
+      padding: 16px;
+      -webkit-overflow-scrolling: touch;
     }
 
     .book-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
       border-radius: 4px;
       position: relative;
+      transform-origin: top center;
       transition: transform 0.15s ease;
+      max-width: 100%;
     }
 
     .page-sheet {
       position: relative;
       background: #ffffff;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .page-sheet img.page-image {
       display: block;
       width: 100%;
+      max-width: 100%;
       height: auto;
       pointer-events: none;
     }
@@ -385,10 +426,10 @@
       width: 100%;
       height: 100%;
       z-index: 10;
-      cursor: crosshair;
+      touch-action: pan-x pan-y;
     }
 
-    /* Sticky Notes Layer */
+    /* Sticky Notes */
     .sticky-note-container {
       position: absolute;
       top: 0;
@@ -401,10 +442,10 @@
 
     .sticky-note {
       position: absolute;
-      width: 160px;
-      min-height: 110px;
+      width: 150px;
+      min-height: 100px;
       background: #fef08a;
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25);
       border-radius: 4px;
       padding: 8px;
       pointer-events: auto;
@@ -414,6 +455,7 @@
       z-index: 20;
       font-size: 0.85rem;
       border-top: 6px solid #facc15;
+      touch-action: none;
     }
 
     .sticky-note-header {
@@ -428,6 +470,7 @@
     .sticky-note-header i.del-note {
       cursor: pointer;
       color: #b45309;
+      padding: 3px;
     }
 
     .sticky-note textarea {
@@ -444,7 +487,7 @@
       user-select: text;
     }
 
-    /* Right Sidebar: Notes Panel */
+    /* Right Sidebar: Notes Notebook */
     aside.sidebar-right {
       width: 320px;
       background: #ffffff;
@@ -452,21 +495,23 @@
       display: flex;
       flex-direction: column;
       z-index: 30;
-      transition: transform 0.25s ease, width 0.25s ease;
+      transition: transform 0.25s ease;
     }
 
     aside.sidebar-right.collapsed {
-      width: 0;
       transform: translateX(100%);
-      overflow: hidden;
+      position: absolute;
+      right: 0;
+      height: 100%;
     }
 
     .right-header {
-      padding: 12px 16px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-shrink: 0;
     }
 
     .right-header h3 {
@@ -482,17 +527,19 @@
       display: flex;
       border-bottom: 1px solid var(--border-color);
       background: #f8fafc;
+      flex-shrink: 0;
     }
 
     .note-tab {
       flex: 1;
-      padding: 8px;
+      padding: 10px 6px;
       font-size: 0.82rem;
       font-weight: 600;
       text-align: center;
       color: var(--text-muted);
       cursor: pointer;
       border-bottom: 2px solid transparent;
+      touch-action: manipulation;
     }
 
     .note-tab.active {
@@ -516,21 +563,22 @@
       margin-bottom: 8px;
       padding-bottom: 6px;
       border-bottom: 1px dashed var(--border-color);
+      flex-shrink: 0;
     }
 
     .math-sym {
-      padding: 3px 6px;
+      padding: 4px 7px;
       background: #f1f5f9;
       border: 1px solid #cbd5e1;
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-family: monospace;
       cursor: pointer;
+      touch-action: manipulation;
     }
 
-    .math-sym:hover {
-      background: #e2e8f0;
-      border-color: #94a3b8;
+    .math-sym:active {
+      background: #cbd5e1;
     }
 
     .note-textarea {
@@ -547,11 +595,6 @@
       user-select: text;
     }
 
-    .note-textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px #bfdbfe;
-    }
-
     .note-footer {
       display: flex;
       align-items: center;
@@ -559,68 +602,22 @@
       margin-top: 8px;
       font-size: 0.75rem;
       color: var(--text-muted);
+      flex-shrink: 0;
     }
 
-    /* Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .modal-overlay.open {
-      display: flex;
-    }
-
-    .modal-box {
-      width: 580px;
-      max-width: 90vw;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      max-height: 85vh;
-    }
-
-    .modal-header {
-      padding: 14px 20px;
-      background: #f8fafc;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .modal-body {
-      padding: 20px;
-      overflow-y: auto;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-
-    /* Page Turner Arrows on Reader Sides */
+    /* Side Arrow Controls on Desktop */
     .side-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       width: 44px;
       height: 70px;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.45);
       backdrop-filter: blur(4px);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #ffffff;
+      color: #0f172a;
       font-size: 1.5rem;
       cursor: pointer;
       z-index: 25;
@@ -633,21 +630,72 @@
       color: var(--primary);
     }
 
-    .side-arrow.prev {
-      left: 12px;
+    .side-arrow.prev { left: 10px; }
+    .side-arrow.next { right: 10px; }
+    .side-arrow.disabled { opacity: 0.15; cursor: not-allowed; pointer-events: none; }
+
+    /* Bottom Quick Action Bar for Mobile */
+    .mobile-bottom-bar {
+      display: none;
+      height: 50px;
+      background: #ffffff;
+      border-top: 1px solid var(--border-color);
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      z-index: 45;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.06);
     }
 
-    .side-arrow.next {
-      right: 12px;
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
     }
 
-    .side-arrow.disabled {
-      opacity: 0.2;
-      cursor: not-allowed;
-      pointer-events: none;
+    .modal-overlay.open {
+      display: flex;
     }
 
-    /* Card Box in Outline */
+    .modal-box {
+      width: 580px;
+      max-width: 100%;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 85vh;
+    }
+
+    .modal-header {
+      padding: 14px 16px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-body {
+      padding: 16px;
+      overflow-y: auto;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* Concept & Prime Cards in Outline */
     .concept-card {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -681,6 +729,113 @@
       font-size: 0.75rem;
       font-weight: 600;
     }
+
+    /* ========================================================
+       Responsive Styles for Tablets and Smartphones (RWD)
+       ======================================================== */
+    @media (max-width: 900px) {
+      #btnDoublePage {
+        display: none !important;
+      }
+      #sheetRight {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --header-h: 50px;
+      }
+
+      .brand span {
+        max-width: 140px;
+      }
+
+      /* Hide extra desktop buttons in header */
+      .desktop-only {
+        display: none !important;
+      }
+
+      /* Sidebars become full-height overlay drawers */
+      aside.sidebar-left, aside.sidebar-right {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 85%;
+        max-width: 320px;
+        height: 100%;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      }
+
+      aside.sidebar-left {
+        left: 0;
+        transform: translateX(0);
+      }
+      aside.sidebar-left.collapsed {
+        transform: translateX(-100%);
+      }
+
+      aside.sidebar-right {
+        right: 0;
+        transform: translateX(0);
+      }
+      aside.sidebar-right.collapsed {
+        transform: translateX(100%);
+      }
+
+      /* Reader container on mobile */
+      main.reader-container {
+        padding: 6px 4px 56px 4px; /* bottom padding for mobile bar */
+      }
+
+      .book-wrapper {
+        width: 100%;
+      }
+
+      .page-sheet {
+        width: 100%;
+      }
+
+      /* Desktop side arrows hidden on mobile */
+      .side-arrow {
+        display: none !important;
+      }
+
+      /* Mobile Bottom Bar visible */
+      .mobile-bottom-bar {
+        display: flex;
+      }
+
+      /* Annotation Bar docked at bottom above bottom-bar */
+      .annotation-bar {
+        top: auto;
+        bottom: 56px;
+        padding: 4px 8px;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand span {
+        max-width: 100px;
+      }
+      .badge-unit {
+        display: none;
+      }
+      .annotation-bar {
+        gap: 2px;
+      }
+      .tool-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+      }
+      .color-dot {
+        width: 16px;
+        height: 16px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -688,87 +843,82 @@
   <!-- Top Navigation -->
   <header class="top-nav">
     <div class="brand">
-      <button class="btn btn-icon" id="toggleLeftSidebar" title="切換目錄縮圖">
+      <button class="btn btn-icon" id="toggleLeftSidebar" title="展開目錄與縮圖">
         <i class="fa-solid fa-bars"></i>
       </button>
       <i class="fa-solid fa-book-open-reader"></i>
-      <span>國中數學七上 · 2-1 質因數分解</span>
+      <span class="brand-title">七上 2-1 質因數分解</span>
       <span class="badge-unit">電子書</span>
     </div>
 
-    <!-- Page Controls -->
+    <!-- Page Controls (Desktop & Tablet) -->
     <div class="nav-controls">
-      <button class="btn btn-icon" id="btnPrevPage" title="上一頁 (←)">
+      <button class="btn btn-icon desktop-only" id="btnPrevPage" title="上一頁">
         <i class="fa-solid fa-chevron-left"></i>
       </button>
-      <div class="page-indicator">
+      <div class="page-indicator desktop-only">
         第 <input type="number" id="pageNumberInput" class="page-input" min="1" max="20" value="1"> 頁 / 20 頁
       </div>
-      <button class="btn btn-icon" id="btnNextPage" title="下一頁 (→)">
+      <button class="btn btn-icon desktop-only" id="btnNextPage" title="下一頁">
         <i class="fa-solid fa-chevron-right"></i>
       </button>
 
-      <span style="color:#cbd5e1; margin:0 4px;">|</span>
+      <span class="desktop-only" style="color:#cbd5e1; margin:0 2px;">|</span>
 
-      <button class="btn btn-icon" id="btnSinglePage" class="active" title="單頁模式">
+      <button class="btn btn-icon desktop-only active" id="btnSinglePage" title="單頁模式">
         <i class="fa-regular fa-file"></i>
       </button>
-      <button class="btn btn-icon" id="btnDoublePage" title="雙頁跨頁模式">
+      <button class="btn btn-icon desktop-only" id="btnDoublePage" title="雙頁跨頁模式">
         <i class="fa-solid fa-book-open"></i>
       </button>
 
-      <span style="color:#cbd5e1; margin:0 4px;">|</span>
+      <span class="desktop-only" style="color:#cbd5e1; margin:0 2px;">|</span>
 
-      <button class="btn btn-icon" id="btnZoomOut" title="縮小 (-)">
+      <button class="btn btn-icon desktop-only" id="btnZoomOut" title="縮小">
         <i class="fa-solid fa-magnifying-glass-minus"></i>
       </button>
-      <span id="zoomLevelText" style="font-size:0.85rem; color:var(--text-muted); min-width:42px; text-align:center;">100%</span>
-      <button class="btn btn-icon" id="btnZoomIn" title="放大 (+)">
+      <span id="zoomLevelText" class="desktop-only" style="font-size:0.8rem; color:var(--text-muted); min-width:38px; text-align:center;">100%</span>
+      <button class="btn btn-icon desktop-only" id="btnZoomIn" title="放大">
         <i class="fa-solid fa-magnifying-glass-plus"></i>
       </button>
-      <button class="btn btn-icon" id="btnFitWidth" title="適應寬度">
+      <button class="btn btn-icon desktop-only" id="btnFitWidth" title="適應寬度">
         <i class="fa-solid fa-arrows-left-right"></i>
       </button>
 
-      <span style="color:#cbd5e1; margin:0 4px;">|</span>
+      <span class="desktop-only" style="color:#cbd5e1; margin:0 2px;">|</span>
 
       <button class="btn" id="btnBookmark" title="將當前頁加入書籤">
         <i class="fa-regular fa-bookmark" id="bookmarkIcon"></i>
-        <span>書籤</span>
+        <span class="desktop-only">書籤</span>
       </button>
       <button class="btn" id="btnExamCard" title="查看小考練習卷資訊">
         <i class="fa-solid fa-file-pen" style="color:#2563eb;"></i>
-        <span>小考卷</span>
+        <span class="desktop-only">小考卷</span>
       </button>
-    </div>
 
-    <div class="nav-controls">
       <button class="btn" id="toggleRightSidebar" title="展開筆記本">
         <i class="fa-solid fa-pen-to-square"></i>
-        <span>個人筆記</span>
-      </button>
-      <button class="btn btn-icon" id="btnFullscreen" title="全螢幕切換">
-        <i class="fa-solid fa-expand"></i>
+        <span class="desktop-only">筆記</span>
       </button>
     </div>
   </header>
 
   <!-- Floating Annotation Bar -->
-  <div class="annotation-bar">
+  <div class="annotation-bar" id="annotationBar">
     <div class="tool-group">
-      <button class="tool-btn active" id="toolPointer" title="選取與瀏覽模式">
-        <i class="fa-solid fa-arrow-pointer"></i>
+      <button class="tool-btn active" id="toolPointer" title="手勢瀏覽/滑動 (Pointer)">
+        <i class="fa-solid fa-hand"></i>
       </button>
-      <button class="tool-btn" id="toolPen" title="自由畫筆 (Pen)">
+      <button class="tool-btn" id="toolPen" title="手繪畫筆 (Pen)">
         <i class="fa-solid fa-pen"></i>
       </button>
-      <button class="tool-btn" id="toolHighlighter" title="螢光筆劃重點 (Highlighter)">
+      <button class="tool-btn" id="toolHighlighter" title="螢光筆劃線 (Highlighter)">
         <i class="fa-solid fa-highlighter"></i>
       </button>
       <button class="tool-btn" id="toolBox" title="矩形框選 (Box)">
         <i class="fa-regular fa-square"></i>
       </button>
-      <button class="tool-btn" id="toolSticky" title="在頁面貼上便利貼筆記 (Sticky Note)">
+      <button class="tool-btn" id="toolSticky" title="貼上便利貼筆記 (Sticky Note)">
         <i class="fa-regular fa-note-sticky"></i>
       </button>
     </div>
@@ -779,17 +929,14 @@
       <div class="color-dot" data-color="#f59e0b" style="background:#f59e0b;" title="橘黃色"></div>
       <div class="color-dot" data-color="#10b981" style="background:#10b981;" title="綠色"></div>
       <div class="color-dot" data-color="#2563eb" style="background:#2563eb;" title="藍色"></div>
-      <div class="color-dot" data-color="#8b5cf6" style="background:#8b5cf6;" title="紫色"></div>
       <div class="color-dot" data-color="#0f172a" style="background:#0f172a;" title="黑色"></div>
     </div>
 
-    <!-- Line Width -->
     <div class="tool-group">
-      <select id="penWidthSelect" style="border:1px solid #cbd5e1; border-radius:4px; font-size:0.8rem; padding:2px 4px; outline:none;">
-        <option value="2">細 (2px)</option>
-        <option value="4" selected>中 (4px)</option>
-        <option value="8">粗 (8px)</option>
-        <option value="16">特粗 (16px)</option>
+      <select id="penWidthSelect" style="border:1px solid #cbd5e1; border-radius:4px; font-size:0.75rem; padding:1px 3px; outline:none;">
+        <option value="2">細</option>
+        <option value="4" selected>中</option>
+        <option value="8">粗</option>
       </select>
     </div>
 
@@ -797,7 +944,7 @@
       <button class="tool-btn" id="toolEraser" title="橡皮擦">
         <i class="fa-solid fa-eraser"></i>
       </button>
-      <button class="tool-btn" id="toolClearCanvas" title="清除本頁畫筆標註">
+      <button class="tool-btn" id="toolClearCanvas" title="清除本頁標註">
         <i class="fa-regular fa-trash-can"></i>
       </button>
     </div>
@@ -806,12 +953,15 @@
   <!-- Main Body -->
   <div class="main-body">
 
-    <!-- Left Sidebar: Outline / Thumbnails -->
-    <aside class="sidebar-left" id="leftSidebar">
+    <!-- Backdrop for Drawer on Mobile -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Left Sidebar: Outline / Thumbnails / Bookmarks -->
+    <aside class="sidebar-left collapsed" id="leftSidebar">
       <div class="sidebar-tabs">
         <div class="sidebar-tab active" data-tab="outline">單元目錄</div>
         <div class="sidebar-tab" data-tab="thumbs">頁面縮圖</div>
-        <div class="sidebar-tab" data-tab="bookmarks">我的書籤</div>
+        <div class="sidebar-tab" data-tab="bookmarks">書籤</div>
       </div>
 
       <div class="sidebar-content" id="sidebarOutline">
@@ -932,14 +1082,14 @@
 
       <div class="sidebar-content" id="sidebarBookmarks" style="display:none;">
         <ul class="outline-list" id="bookmarkList">
-          <li style="color:var(--text-muted); font-size:0.85rem; padding:8px;">尚未加入任何書籤。點擊上方「書籤」按鈕即可標記！</li>
+          <li style="color:var(--text-muted); font-size:0.85rem; padding:8px;">尚未加入任何書籤。</li>
         </ul>
       </div>
     </aside>
 
     <!-- Center Book Reader -->
     <main class="reader-container" id="readerContainer">
-      <div class="side-arrow prev" id="arrowPrev" title="上一頁">
+      <div class="side-arrow prev desktop-only" id="arrowPrev" title="上一頁">
         <i class="fa-solid fa-chevron-left"></i>
       </div>
 
@@ -951,7 +1101,7 @@
           <div class="sticky-note-container" id="stickyContainerLeft"></div>
         </div>
 
-        <!-- Page Sheet 2 (for double page view) -->
+        <!-- Page Sheet 2 (for desktop double-page view) -->
         <div class="page-sheet" id="sheetRight" style="display:none;">
           <img class="page-image" id="pageImgRight" src="pages/page_02.jpg" alt="課本頁面">
           <canvas class="draw-canvas" id="canvasRight"></canvas>
@@ -959,13 +1109,13 @@
         </div>
       </div>
 
-      <div class="side-arrow next" id="arrowNext" title="下一頁">
+      <div class="side-arrow next desktop-only" id="arrowNext" title="下一頁">
         <i class="fa-solid fa-chevron-right"></i>
       </div>
     </main>
 
     <!-- Right Sidebar: Notes Notebook -->
-    <aside class="sidebar-right" id="rightSidebar">
+    <aside class="sidebar-right collapsed" id="rightSidebar">
       <div class="right-header">
         <h3><i class="fa-solid fa-book-bookmark" style="color:var(--primary);"></i> 學習筆記本</h3>
         <button class="btn btn-icon" id="closeRightSidebar" style="border:none;">
@@ -974,13 +1124,13 @@
       </div>
 
       <div class="note-tabs">
-        <div class="note-tab active" data-notetab="page">當前頁面筆記</div>
-        <div class="note-tab" data-notetab="global">單元總備忘錄</div>
+        <div class="note-tab active" data-notetab="page">本頁筆記</div>
+        <div class="note-tab" data-notetab="global">全單元備忘錄</div>
       </div>
 
       <div class="note-editor-wrapper">
         <div class="math-symbol-bar">
-          <span style="font-size:0.75rem; color:var(--text-muted); align-self:center;">快速符號：</span>
+          <span style="font-size:0.75rem; color:var(--text-muted); align-self:center;">符號：</span>
           <span class="math-sym">×</span>
           <span class="math-sym">÷</span>
           <span class="math-sym">²</span>
@@ -996,20 +1146,20 @@
         <!-- Page Note -->
         <div id="pageNoteBox" style="flex:1; display:flex; flex-direction:column;">
           <div style="font-size:0.8rem; font-weight:600; color:var(--primary); margin-bottom:4px;" id="currentNoteTitle">第 1 頁筆記 (P.82)</div>
-          <textarea class="note-textarea" id="pageNoteText" placeholder="在此輸入本頁重點、例題算法或疑問...（內容會自動儲存）"></textarea>
+          <textarea class="note-textarea" id="pageNoteText" placeholder="在此輸入本頁重點、例題算法或疑問...（自動儲存）"></textarea>
         </div>
 
         <!-- Global Note -->
         <div id="globalNoteBox" style="flex:1; display:none; flex-direction:column;">
           <div style="font-size:0.8rem; font-weight:600; color:var(--accent); margin-bottom:4px;">全單元複習備忘錄</div>
-          <textarea class="note-textarea" id="globalNoteText" placeholder="在此記錄 2-1 質因數分解的整體學習心得、常錯觀念、複習重點..."></textarea>
+          <textarea class="note-textarea" id="globalNoteText" placeholder="在此記錄 2-1 質因數分解的整體學習心得與重點..."></textarea>
         </div>
 
         <div class="note-footer">
-          <span id="saveStatusIndicator"><i class="fa-solid fa-check"></i> 自動儲存中</span>
+          <span id="saveStatusIndicator"><i class="fa-solid fa-check"></i> 已自動儲存</span>
           <div style="display:flex; gap:6px;">
             <button class="btn" id="btnExportNotes" style="font-size:0.75rem; padding:3px 8px;">
-              <i class="fa-solid fa-download"></i> 匯出筆記
+              <i class="fa-solid fa-download"></i> 匯出
             </button>
             <button class="btn" id="btnClearNotes" style="font-size:0.75rem; padding:3px 8px; color:#ef4444;">
               <i class="fa-regular fa-trash-can"></i> 清空
@@ -1021,11 +1171,24 @@
 
   </div>
 
+  <!-- Mobile Bottom Quick Navigation Bar -->
+  <div class="mobile-bottom-bar" id="mobileBottomBar">
+    <button class="btn btn-icon" id="btnPrevMobile">
+      <i class="fa-solid fa-chevron-left"></i> 上一頁
+    </button>
+    <div style="font-size:0.85rem; font-weight:600; color:var(--primary);">
+      第 <span id="mobilePageNum">1</span> / 20 頁
+    </div>
+    <button class="btn btn-icon" id="btnNextMobile">
+      下一頁 <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+
   <!-- Modal: Quiz Worksheet Overview -->
   <div class="modal-overlay" id="examModal">
     <div class="modal-box">
       <div class="modal-header">
-        <h3 style="display:flex; align-items:center; gap:8px; font-size:1.1rem; color:#1e3a8a;">
+        <h3 style="display:flex; align-items:center; gap:8px; font-size:1.05rem; color:#1e3a8a;">
           <i class="fa-solid fa-file-lines" style="color:var(--primary);"></i>
           <span>2-1 質因數分解 · 小考練習卷說明</span>
         </h3>
@@ -1034,17 +1197,15 @@
       <div class="modal-body">
         <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px; margin-bottom:14px;">
           <h4 style="color:#1d4ed8; margin-bottom:6px;">📋 考卷規格與要求總覽</h4>
-          <ul style="padding-left:20px; font-size:0.9rem; color:#1e293b; line-height:1.6;">
-            <li><b>單元內容：</b>七年級上冊「2-1 質因數分解」（因數倍數、倍數判別、質數合數、標準分解式）</li>
-            <li><b>題型配置：</b>選擇題 7 題（原 5 題 + 加增 2 題）、填充題 5 題，共 12 題</li>
-            <li><b>滿分計分：</b>100 分（選擇題每題 8 分共 56 分；填充題每題 8~9 分共 44 分）</li>
-            <li><b>版面設計：</b>Word 檔 (.docx)，A4 直式呈現</li>
-            <li><b>分頁嚴格規範：</b><b>第 1 頁為完整題目卷</b>，<b>第 2 頁為完整解答與詳解版</b></li>
+          <ul style="padding-left:20px; font-size:0.88rem; color:#1e293b; line-height:1.6;">
+            <li><b>單元內容：</b>七年級上冊「2-1 質因數分解」</li>
+            <li><b>題型配置：</b>選擇題 7 題（每題 8 分共 56 分）、填充題 5 題（共 44 分）</li>
+            <li><b>滿分計分：</b>100 分</li>
+            <li><b>分頁嚴格規範：</b><b>第 1 頁完整題目卷</b>，<b>第 2 頁完整解答與詳解版</b></li>
           </ul>
         </div>
-        <p style="font-size:0.9rem; color:#475569;">
-          📄 Word 考卷檔案已生成於本機資料夾，名稱為：<br>
-          <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px; font-weight:600; color:#0f172a;">國中七年級數學_2-1質因數分解_小考練習卷(含解答).docx</code>
+        <p style="font-size:0.88rem; color:#475569;">
+          📄 Word 考卷檔案已生成並保存在本機資料夾中。
         </p>
       </div>
     </div>
@@ -1063,8 +1224,11 @@
 
     // Elements
     const pageNumberInput = document.getElementById('pageNumberInput');
+    const mobilePageNum = document.getElementById('mobilePageNum');
     const btnPrevPage = document.getElementById('btnPrevPage');
     const btnNextPage = document.getElementById('btnNextPage');
+    const btnPrevMobile = document.getElementById('btnPrevMobile');
+    const btnNextMobile = document.getElementById('btnNextMobile');
     const arrowPrev = document.getElementById('arrowPrev');
     const arrowNext = document.getElementById('arrowNext');
     const btnSinglePage = document.getElementById('btnSinglePage');
@@ -1084,6 +1248,7 @@
     const stickyContainerRight = document.getElementById('stickyContainerRight');
     const leftSidebar = document.getElementById('leftSidebar');
     const rightSidebar = document.getElementById('rightSidebar');
+    const sidebarBackdrop = document.getElementById('sidebarBackdrop');
     const toggleLeftSidebar = document.getElementById('toggleLeftSidebar');
     const toggleRightSidebar = document.getElementById('toggleRightSidebar');
     const closeRightSidebar = document.getElementById('closeRightSidebar');
@@ -1097,7 +1262,6 @@
     const thumbGrid = document.getElementById('thumbGrid');
     const penWidthSelect = document.getElementById('penWidthSelect');
 
-    // Page titles map
     const pageTitles = {
       1: "P.82 2-1 單元導讀與章節目標",
       2: "P.83 因數與倍數的基本概念",
@@ -1121,16 +1285,23 @@
       20: "P.101 2-1 自我評量（三）質因數分解"
     };
 
-    // Load initial page
     function init() {
+      // Auto collapse sidebars on small screens
+      if (window.innerWidth <= 768) {
+        leftSidebar.classList.add('collapsed');
+        rightSidebar.classList.add('collapsed');
+      }
+
       renderThumbnails();
       updateBookmarksUI();
       loadGlobalNote();
       loadPage(1);
 
-      // Event listeners
+      // Event listeners for page change
       btnPrevPage.addEventListener('click', prevPage);
       btnNextPage.addEventListener('click', nextPage);
+      btnPrevMobile.addEventListener('click', prevPage);
+      btnNextMobile.addEventListener('click', nextPage);
       arrowPrev.addEventListener('click', prevPage);
       arrowNext.addEventListener('click', nextPage);
 
@@ -1143,6 +1314,7 @@
         }
       });
 
+      // Keyboard
       document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT') return;
         if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevPage();
@@ -1158,10 +1330,14 @@
       });
 
       btnDoublePage.addEventListener('click', () => {
+        if (window.innerWidth <= 900) {
+          alert('行動裝置螢幕建議以單頁模式瀏覽，以保持最佳清晰度！');
+          return;
+        }
         isDoublePage = true;
         btnDoublePage.classList.add('active');
         btnSinglePage.classList.remove('active');
-        if (currentPage % 2 === 0) currentPage--; // Start on odd page for facing pages
+        if (currentPage % 2 === 0) currentPage--;
         loadPage(currentPage);
       });
 
@@ -1173,20 +1349,43 @@
         applyZoom();
       });
 
-      // Sidebars toggle
+      // Sidebar toggles
       toggleLeftSidebar.addEventListener('click', () => {
-        leftSidebar.classList.toggle('collapsed');
+        const isCollapsed = leftSidebar.classList.contains('collapsed');
+        if (isCollapsed) {
+          leftSidebar.classList.remove('collapsed');
+          rightSidebar.classList.add('collapsed');
+          if (window.innerWidth <= 768) sidebarBackdrop.classList.add('active');
+        } else {
+          leftSidebar.classList.add('collapsed');
+          sidebarBackdrop.classList.remove('active');
+        }
       });
 
       toggleRightSidebar.addEventListener('click', () => {
-        rightSidebar.classList.toggle('collapsed');
+        const isCollapsed = rightSidebar.classList.contains('collapsed');
+        if (isCollapsed) {
+          rightSidebar.classList.remove('collapsed');
+          leftSidebar.classList.add('collapsed');
+          if (window.innerWidth <= 768) sidebarBackdrop.classList.add('active');
+        } else {
+          rightSidebar.classList.add('collapsed');
+          sidebarBackdrop.classList.remove('active');
+        }
       });
 
       closeRightSidebar.addEventListener('click', () => {
         rightSidebar.classList.add('collapsed');
+        sidebarBackdrop.classList.remove('active');
       });
 
-      // Left sidebar tabs
+      sidebarBackdrop.addEventListener('click', () => {
+        leftSidebar.classList.add('collapsed');
+        rightSidebar.classList.add('collapsed');
+        sidebarBackdrop.classList.remove('active');
+      });
+
+      // Sidebar tabs
       document.querySelectorAll('.sidebar-tab').forEach(tab => {
         tab.addEventListener('click', () => {
           document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
@@ -1203,6 +1402,10 @@
         item.addEventListener('click', () => {
           const pg = parseInt(item.dataset.page);
           loadPage(pg);
+          if (window.innerWidth <= 768) {
+            leftSidebar.classList.add('collapsed');
+            sidebarBackdrop.classList.remove('active');
+          }
         });
       });
 
@@ -1240,15 +1443,11 @@
       // Note input listeners
       pageNoteText.addEventListener('input', triggerNoteSave);
       globalNoteText.addEventListener('input', triggerGlobalNoteSave);
-
-      // Export notes
       document.getElementById('btnExportNotes').addEventListener('click', exportNotes);
       document.getElementById('btnClearNotes').addEventListener('click', clearCurrentNote);
-
-      // Bookmarks
       btnBookmark.addEventListener('click', toggleBookmark);
 
-      // Tool Buttons
+      // Setup Tools
       setupTools();
 
       // Modal
@@ -1259,14 +1458,8 @@
         document.getElementById('examModal').classList.remove('open');
       });
 
-      // Fullscreen
-      document.getElementById('btnFullscreen').addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-          document.documentElement.requestFullscreen();
-        } else {
-          document.exitFullscreen();
-        }
-      });
+      // Touch swipe gestures on reader container when in pointer mode
+      setupTouchSwipe();
     }
 
     function getPageImagePath(p) {
@@ -1279,6 +1472,7 @@
       if (page > TOTAL_PAGES) page = TOTAL_PAGES;
       currentPage = page;
       pageNumberInput.value = currentPage;
+      if (mobilePageNum) mobilePageNum.textContent = currentPage;
 
       // Update active outline item
       document.querySelectorAll('.outline-item').forEach(it => {
@@ -1293,6 +1487,8 @@
       // Update arrow states
       arrowPrev.classList.toggle('disabled', currentPage <= 1);
       arrowNext.classList.toggle('disabled', isDoublePage ? currentPage >= TOTAL_PAGES - 1 : currentPage >= TOTAL_PAGES);
+      btnPrevMobile.disabled = currentPage <= 1;
+      btnNextMobile.disabled = currentPage >= TOTAL_PAGES;
 
       // Load Left Page
       pageImgLeft.src = getPageImagePath(currentPage);
@@ -1301,8 +1497,8 @@
         renderStickyNotes(stickyContainerLeft, currentPage);
       };
 
-      // Handle Double Page View
-      if (isDoublePage && currentPage < TOTAL_PAGES) {
+      // Handle Double Page View (Desktop Only)
+      if (isDoublePage && window.innerWidth > 900 && currentPage < TOTAL_PAGES) {
         sheetRight.style.display = 'block';
         pageImgRight.src = getPageImagePath(currentPage + 1);
         pageImgRight.onload = () => {
@@ -1317,10 +1513,13 @@
       currentNoteTitle.textContent = `第 ${currentPage} 頁筆記 (${pageTitles[currentPage] || ''})`;
       loadPageNote(currentPage);
       updateBookmarkIcon();
+
+      // Scroll reader to top smoothly on page change
+      document.getElementById('readerContainer').scrollTop = 0;
     }
 
     function prevPage() {
-      const step = isDoublePage ? 2 : 1;
+      const step = (isDoublePage && window.innerWidth > 900) ? 2 : 1;
       if (currentPage - step >= 1) {
         loadPage(currentPage - step);
       } else if (currentPage > 1) {
@@ -1329,7 +1528,7 @@
     }
 
     function nextPage() {
-      const step = isDoublePage ? 2 : 1;
+      const step = (isDoublePage && window.innerWidth > 900) ? 2 : 1;
       if (currentPage + step <= TOTAL_PAGES) {
         loadPage(currentPage + step);
       }
@@ -1345,7 +1544,35 @@
       bookWrapper.style.transform = `scale(${zoomLevel})`;
     }
 
-    // Canvas & Annotations
+    // Touch Swipe on Reader (Pointer Mode)
+    function setupTouchSwipe() {
+      const reader = document.getElementById('readerContainer');
+      let touchStartX = 0;
+      let touchStartY = 0;
+
+      reader.addEventListener('touchstart', (e) => {
+        if (currentTool !== 'pointer') return;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      reader.addEventListener('touchend', (e) => {
+        if (currentTool !== 'pointer') return;
+        const deltaX = e.changedTouches[0].clientX - touchStartX;
+        const deltaY = e.changedTouches[0].clientY - touchStartY;
+
+        // Horizontal swipe threshold: > 70px and mainly horizontal
+        if (Math.abs(deltaX) > 70 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+          if (deltaX < 0) {
+            nextPage(); // swipe left -> next page
+          } else {
+            prevPage(); // swipe right -> prev page
+          }
+        }
+      }, { passive: true });
+    }
+
+    // Canvas & Annotations Tools
     function setupTools() {
       const toolBtns = [
         { id: 'toolPointer', name: 'pointer' },
@@ -1361,7 +1588,7 @@
           toolBtns.forEach(other => document.getElementById(other.id).classList.remove('active'));
           document.getElementById(t.id).classList.add('active');
           currentTool = t.name;
-          updateCanvasCursor();
+          updateCanvasTouchMode();
         });
       });
 
@@ -1387,16 +1614,16 @@
       });
     }
 
-    function updateCanvasCursor() {
-      const cursor = currentTool === 'pointer' ? 'default' : 
-                     currentTool === 'sticky' ? 'cell' : 
-                     currentTool === 'eraser' ? 'pointer' : 'crosshair';
-      canvasLeft.style.cursor = cursor;
-      canvasRight.style.cursor = cursor;
+    function updateCanvasTouchMode() {
+      const isDrawing = (currentTool === 'pen' || currentTool === 'highlighter' || currentTool === 'box' || currentTool === 'eraser');
+      const touchAction = isDrawing ? 'none' : 'pan-x pan-y';
+      canvasLeft.style.touchAction = touchAction;
+      canvasRight.style.touchAction = touchAction;
+      canvasLeft.style.cursor = currentTool === 'pointer' ? 'default' : 'crosshair';
+      canvasRight.style.cursor = currentTool === 'pointer' ? 'default' : 'crosshair';
     }
 
     function initCanvas(canvas, pageNum) {
-      const rect = canvas.parentElement.getBoundingClientRect();
       const img = canvas.previousElementSibling;
       canvas.width = img.naturalWidth || 1258;
       canvas.height = img.naturalHeight || 1577;
@@ -1404,14 +1631,12 @@
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Load saved paths
       const savedData = localStorage.getItem(`ebook_canvas_p${pageNum}`);
       if (savedData) {
         const paths = JSON.parse(savedData);
         paths.forEach(p => drawPath(ctx, p));
       }
 
-      // Attach drawing handlers
       attachCanvasEvents(canvas, pageNum);
     }
 
@@ -1446,16 +1671,30 @@
       let startX = 0, startY = 0;
       let currentPoints = [];
 
-      canvas.onmousedown = (e) => {
-        if (currentTool === 'pointer') return;
+      function getCoords(e) {
         const rect = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
         const scaleX = canvas.width / rect.width;
         const scaleY = canvas.height / rect.height;
-        startX = (e.clientX - rect.left) * scaleX;
-        startY = (e.clientY - rect.top) * scaleY;
+        return {
+          x: (clientX - rect.left) * scaleX,
+          y: (clientY - rect.top) * scaleY,
+          rawX: clientX - rect.left,
+          rawY: clientY - rect.top,
+          widthRatio: rect.width,
+          heightRatio: rect.height
+        };
+      }
+
+      function startDraw(e) {
+        if (currentTool === 'pointer') return;
+        const c = getCoords(e);
+        startX = c.x;
+        startY = c.y;
 
         if (currentTool === 'sticky') {
-          createStickyNote(pageNum, (e.clientX - rect.left) / rect.width * 100, (e.clientY - rect.top) / rect.height * 100);
+          createStickyNote(pageNum, (c.rawX / c.widthRatio) * 100, (c.rawY / c.heightRatio) * 100);
           return;
         }
 
@@ -1466,28 +1705,25 @@
 
         isDrawing = true;
         currentPoints = [{ x: startX, y: startY }];
-      };
+        if (e.cancelable) e.preventDefault();
+      }
 
-      canvas.onmousemove = (e) => {
+      function moveDraw(e) {
         if (!isDrawing) return;
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        const currentX = (e.clientX - rect.left) * scaleX;
-        const currentY = (e.clientY - rect.top) * scaleY;
+        if (e.cancelable) e.preventDefault();
+        const c = getCoords(e);
+        const currentX = c.x;
+        const currentY = c.y;
 
         if (currentTool === 'pen' || currentTool === 'highlighter') {
           currentPoints.push({ x: currentX, y: currentY });
-          // redraw
-          const pathObj = {
+          drawPath(ctx, {
             tool: currentTool,
             color: currentColor,
             width: currentPenWidth,
             points: currentPoints
-          };
-          drawPath(ctx, pathObj);
+          });
         } else if (currentTool === 'box') {
-          // re-render stored paths then live box
           const savedData = JSON.parse(localStorage.getItem(`ebook_canvas_p${pageNum}`) || '[]');
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           savedData.forEach(p => drawPath(ctx, p));
@@ -1501,28 +1737,23 @@
             h: currentY - startY
           });
         }
-      };
+      }
 
-      canvas.onmouseup = (e) => {
+      function endDraw(e) {
         if (!isDrawing) return;
         isDrawing = false;
 
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        const endX = (e.clientX - rect.left) * scaleX;
-        const endY = (e.clientY - rect.top) * scaleY;
-
         const savedData = JSON.parse(localStorage.getItem(`ebook_canvas_p${pageNum}`) || '[]');
         if (currentTool === 'box') {
+          const lastPt = currentPoints[currentPoints.length - 1] || { x: startX, y: startY };
           savedData.push({
             tool: 'box',
             color: currentColor,
             width: currentPenWidth,
             x: startX,
             y: startY,
-            w: endX - startX,
-            h: endY - startY
+            w: lastPt.x - startX,
+            h: lastPt.y - startY
           });
         } else if (currentPoints.length > 1) {
           savedData.push({
@@ -1533,12 +1764,23 @@
           });
         }
         localStorage.setItem(`ebook_canvas_p${pageNum}`, JSON.stringify(savedData));
-      };
+      }
+
+      // Mouse Events
+      canvas.onmousedown = startDraw;
+      canvas.onmousemove = moveDraw;
+      canvas.onmouseup = endDraw;
+      canvas.onmouseleave = endDraw;
+
+      // Touch Events for Mobile & Tablet
+      canvas.ontouchstart = startDraw;
+      canvas.ontouchmove = moveDraw;
+      canvas.ontouchend = endDraw;
+      canvas.ontouchcancel = endDraw;
     }
 
     function eraseAt(pageNum, canvas, x, y) {
       let saved = JSON.parse(localStorage.getItem(`ebook_canvas_p${pageNum}`) || '[]');
-      // remove path close to x, y
       saved = saved.filter(p => {
         if (p.tool === 'box') {
           return !(x >= p.x && x <= p.x + p.w && y >= p.y && y <= p.y + p.h);
@@ -1546,7 +1788,7 @@
         if (p.points) {
           for (let pt of p.points) {
             const dist = Math.hypot(pt.x - x, pt.y - y);
-            if (dist < 30) return false;
+            if (dist < 35) return false;
           }
         }
         return true;
@@ -1565,8 +1807,8 @@
       const notes = JSON.parse(localStorage.getItem(`ebook_stickies_p${pageNum}`) || '[]');
       const newNote = {
         id: Date.now(),
-        left: leftPercent,
-        top: topPercent,
+        left: Math.max(5, Math.min(75, leftPercent)),
+        top: Math.max(5, Math.min(80, topPercent)),
         text: '寫點隨堂筆記...'
       };
       notes.push(newNote);
@@ -1591,21 +1833,81 @@
           <textarea>${note.text}</textarea>
         `;
 
-        // Delete
-        el.querySelector('.del-note').addEventListener('click', () => {
+        el.querySelector('.del-note').addEventListener('click', (e) => {
+          e.stopPropagation();
           const updated = notes.filter(n => n.id !== note.id);
           localStorage.setItem(`ebook_stickies_p${pageNum}`, JSON.stringify(updated));
           renderStickyNotes(container, pageNum);
         });
 
-        // Text change
         el.querySelector('textarea').addEventListener('input', (e) => {
           note.text = e.target.value;
           localStorage.setItem(`ebook_stickies_p${pageNum}`, JSON.stringify(notes));
         });
 
+        // Touch & Drag Support for Mobile & Desktop
+        setupStickyDrag(el, note, pageNum);
+
         container.appendChild(el);
       });
+    }
+
+    function setupStickyDrag(el, noteObj, pageNum) {
+      let isDragging = false;
+      let startX, startY;
+      let startLeft, startTop;
+
+      function onStart(e) {
+        if (e.target.tagName === 'TEXTAREA' || e.target.classList.contains('del-note')) return;
+        isDragging = true;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        startX = clientX;
+        startY = clientY;
+        startLeft = parseFloat(el.style.left);
+        startTop = parseFloat(el.style.top);
+      }
+
+      function onMove(e) {
+        if (!isDragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        const deltaX = clientX - startX;
+        const deltaY = clientY - startY;
+        const parentW = el.parentElement.clientWidth;
+        const parentH = el.parentElement.clientHeight;
+
+        let newLeft = startLeft + (deltaX / parentW) * 100;
+        let newTop = startTop + (deltaY / parentH) * 100;
+        newLeft = Math.max(0, Math.min(85, newLeft));
+        newTop = Math.max(0, Math.min(90, newTop));
+
+        el.style.left = `${newLeft}%`;
+        el.style.top = `${newTop}%`;
+        noteObj.left = newLeft;
+        noteObj.top = newTop;
+      }
+
+      function onEnd() {
+        if (isDragging) {
+          isDragging = false;
+          const notes = JSON.parse(localStorage.getItem(`ebook_stickies_p${pageNum}`) || '[]');
+          const target = notes.find(n => n.id === noteObj.id);
+          if (target) {
+            target.left = noteObj.left;
+            target.top = noteObj.top;
+            localStorage.setItem(`ebook_stickies_p${pageNum}`, JSON.stringify(notes));
+          }
+        }
+      }
+
+      el.addEventListener('mousedown', onStart);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+
+      el.addEventListener('touchstart', onStart, { passive: true });
+      window.addEventListener('touchmove', onMove, { passive: true });
+      window.addEventListener('touchend', onEnd);
     }
 
     // Notes Notebook
@@ -1677,6 +1979,10 @@
         `;
         card.addEventListener('click', () => {
           loadPage(i);
+          if (window.innerWidth <= 768) {
+            leftSidebar.classList.add('collapsed');
+            sidebarBackdrop.classList.remove('active');
+          }
         });
         thumbGrid.appendChild(card);
       }
@@ -1709,7 +2015,7 @@
 
     function updateBookmarksUI() {
       if (bookmarks.length === 0) {
-        bookmarkList.innerHTML = '<li style="color:var(--text-muted); font-size:0.85rem; padding:8px;">尚未加入任何書籤。點擊上方「書籤」按鈕即可標記！</li>';
+        bookmarkList.innerHTML = '<li style="color:var(--text-muted); font-size:0.85rem; padding:8px;">尚未加入任何書籤。</li>';
         return;
       }
       bookmarkList.innerHTML = '';
@@ -1720,12 +2026,17 @@
           <span><i class="fa-solid fa-bookmark" style="color:#f59e0b; margin-right:6px;"></i> ${pageTitles[pg]}</span>
           <span class="page-tag">P.${81 + pg}</span>
         `;
-        li.addEventListener('click', () => loadPage(pg));
+        li.addEventListener('click', () => {
+          loadPage(pg);
+          if (window.innerWidth <= 768) {
+            leftSidebar.classList.add('collapsed');
+            sidebarBackdrop.classList.remove('active');
+          }
+        });
         bookmarkList.appendChild(li);
       });
     }
 
-    // Run on startup
     window.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
